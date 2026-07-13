@@ -1,0 +1,15 @@
+import type { HTMLAttributes, InputHTMLAttributes, SelectHTMLAttributes, TextareaHTMLAttributes } from "react";
+import type React from "react";
+import { cn } from "../utils/cn";
+
+export function Card({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
+  return <div className={cn("animate-lift rounded-3xl border border-white/50 bg-white/70 p-5 shadow-soft backdrop-blur-xl dark:border-white/10 dark:bg-zinc-950/55", className)} {...props} />;
+}
+export const Button = ({ className, ...p }: React.ButtonHTMLAttributes<HTMLButtonElement>) => <button className={cn("inline-flex items-center justify-center gap-2 rounded-2xl bg-zinc-950 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:bg-zinc-800 dark:bg-white dark:text-zinc-950", className)} {...p} />;
+export const GhostButton = ({ className, ...p }: React.ButtonHTMLAttributes<HTMLButtonElement>) => <button className={cn("inline-flex items-center justify-center gap-2 rounded-2xl border border-zinc-200/80 bg-white/55 px-3 py-2 text-sm font-medium transition hover:bg-white dark:border-white/10 dark:bg-white/5 dark:hover:bg-white/10", className)} {...p} />;
+export const Input = ({ className, ...p }: InputHTMLAttributes<HTMLInputElement>) => <input className={cn("w-full rounded-2xl border border-zinc-200 bg-white/70 px-3 py-2.5 text-sm outline-none transition focus:border-zinc-400 dark:border-white/10 dark:bg-white/5", className)} {...p} />;
+export const Textarea = ({ className, ...p }: TextareaHTMLAttributes<HTMLTextAreaElement>) => <textarea className={cn("min-h-24 w-full rounded-2xl border border-zinc-200 bg-white/70 px-3 py-2.5 text-sm outline-none transition focus:border-zinc-400 dark:border-white/10 dark:bg-white/5", className)} {...p} />;
+export const Select = ({ className, children, ...p }: SelectHTMLAttributes<HTMLSelectElement>) => <select className={cn("w-full rounded-2xl border border-zinc-200 bg-white/70 px-3 py-2.5 text-sm outline-none dark:border-white/10 dark:bg-zinc-900", className)} {...p}>{children}</select>;
+export const Label = ({ className, ...p }: HTMLAttributes<HTMLLabelElement>) => <label className={cn("mb-2 block text-xs font-semibold uppercase tracking-wide text-zinc-500", className)} {...p} />;
+export const Progress = ({ value, className }: { value: number; className?: string }) => <div className={cn("h-2.5 overflow-hidden rounded-full bg-zinc-200/80 dark:bg-white/10", className)}><div className="h-full rounded-full bg-gradient-to-r from-emerald-400 via-sky-400 to-violet-500 transition-all" style={{ width: `${Math.max(0, Math.min(100, value))}%` }} /></div>;
+export const Stat = ({ label, value, icon }: { label: string; value: string | number; icon?: React.ReactNode }) => <Card><div className="flex items-start justify-between gap-3"><div><p className="text-sm text-zinc-500">{label}</p><p className="mt-2 text-3xl font-bold tracking-tight">{value}</p></div><div className="rounded-2xl bg-zinc-950 p-2.5 text-white dark:bg-white dark:text-zinc-950">{icon}</div></div></Card>;

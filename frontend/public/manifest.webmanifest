@@ -1,0 +1,9 @@
+{
+  "name": "CareerOS",
+  "short_name": "CareerOS",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#09090b",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+}
