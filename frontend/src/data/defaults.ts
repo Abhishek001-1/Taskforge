@@ -5,13 +5,16 @@ export const aiTopics = ["GenAI", "LLMs", "Agentic AI", "MCP", "RAG", "LangChain
 export const platforms = ["LeetCode", "Codeforces", "CodeChef", "GFG", "HackerRank", "Other"] as const;
 export const difficulties = ["Easy", "Medium", "Hard"] as const;
 export const quotes = [
-  "Small daily reps become interview calm.",
-  "Consistency compounds faster than panic ever can.",
-  "Today is a clean build. Ship one useful increment.",
-  "Prepare like your future self already has the offer.",
+  "Today's progress is tomorrow's confidence.",
+  "Solve. Learn. Practice. Repeat.",
+  "One focused session beats hours of distraction.",
+  "Consistency compounds faster than intensity.",
+  "Build your interview skills—one task at a time.",
+  "Every completed goal is another step toward your dream role.",
+  "Stay curious. Stay disciplined. Stay interview-ready.",
 ];
 
-export const defaultSettings: Settings = { appName: "CareerOS", dsaTarget: 5, theme: "system", reminder: true };
+export const defaultSettings: Settings = { appName: "TaskForge", dsaTarget: 5, theme: "system", reminder: true };
 
 export const makeDay = (date = format(new Date(), "yyyy-MM-dd"), target = 5): DayEntry => ({
   date,
