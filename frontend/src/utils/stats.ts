@@ -1,8 +1,9 @@
 import { addDays, differenceInCalendarDays, eachDayOfInterval, format, parseISO, startOfMonth, startOfWeek, subDays } from "date-fns";
 import type { Badge, DayEntry, TrackerState } from "../types";
 
-export const dayScore = (d: DayEntry) => [d.dsa.solved >= d.dsa.target, d.system.read, d.ai.completed, d.hr.practiced].filter(Boolean).length;
-export const completion = (d?: DayEntry) => (d ? Math.round((dayScore(d) / 4) * 100) : 0);
+export const goalStates = (d: DayEntry) => [d.dsa.solved >= d.dsa.target, d.system.read, d.ai.completed, d.hr.practiced, d.misc.completed];
+export const dayScore = (d: DayEntry) => goalStates(d).filter(Boolean).length;
+export const completion = (d?: DayEntry) => (d ? Math.round((dayScore(d) / 5) * 100) : 0);
 export const isDone = (d?: DayEntry) => !!d && completion(d) === 100;
 export const allDays = (s: TrackerState) => Object.values(s.days).sort((a, b) => a.date.localeCompare(b.date));
 
@@ -30,6 +31,7 @@ export function totals(s: TrackerState) {
     system: days.filter((d) => d.system.read).length,
     ai: days.filter((d) => d.ai.completed).length,
     hr: days.filter((d) => d.hr.practiced).length,
+    misc: days.filter((d) => d.misc.completed).length,
     avg: days.length ? Math.round(days.reduce((n, d) => n + completion(d), 0) / days.length) : 0,
     ...streaks(s),
   };
