@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { BarChart3, CalendarDays, Grid3X3, Home, Medal, Moon, Settings, Sparkles, Sun, Trophy } from "lucide-react";
+import { BarChart3, CalendarDays, Grid3X3, Home, LogOut, Medal, Moon, Settings, Sparkles, Sun, Trophy } from "lucide-react";
 import { NavLink, Outlet, useLocation } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 import { useTracker } from "../contexts/TrackerContext";
 import { cn } from "../utils/cn";
 
@@ -15,8 +16,8 @@ const nav = [
 ] as const;
 
 function ThemeToggle() {
-  const { updateSettings } = useTracker();
-  const isDark = document.documentElement.classList.contains("dark");
+  const { state, updateSettings } = useTracker();
+  const isDark = state.settings.theme === "dark" || (state.settings.theme === "system" && matchMedia("(prefers-color-scheme: dark)").matches);
   const toggle = () => updateSettings({ theme: isDark ? "light" : "dark" });
 
   return (
@@ -46,6 +47,7 @@ function ThemeToggle() {
 
 export function Layout() {
   const { state } = useTracker();
+  const { user, logout } = useAuth();
   const location = useLocation();
 
   return (
@@ -75,8 +77,21 @@ export function Layout() {
           </div>
           <span className="text-sm font-bold text-[#1a1b2e] dark:text-zinc-50">{state.settings.appName}</span>
         </div>
-        {/* Theme toggle — top-right on mobile */}
-        <ThemeToggle />
+        {/* Theme toggle + logout — top-right on mobile */}
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <button
+            onClick={() => logout()}
+            aria-label="Log out"
+            className={cn(
+              "flex h-9 w-9 items-center justify-center rounded-2xl border transition-all duration-200",
+              "border-[#cdc9ee] bg-white text-[#5b5ce2] hover:bg-red-50 hover:text-red-500 hover:border-red-200",
+              "dark:border-white/10 dark:bg-white/8 dark:text-[#a5b4fc] dark:hover:bg-red-500/15 dark:hover:text-red-400",
+            )}
+          >
+            <LogOut size={16} />
+          </button>
+        </div>
       </header>
 
       {/* ── Desktop sidebar ──────────────────────────── */}
@@ -93,7 +108,7 @@ export function Layout() {
         )}
         style={{
           // Solid opaque bg on mobile — cannot bleed or scroll away
-          backgroundColor: document.documentElement.classList.contains("dark") ? "#0f1020" : "#ffffff",
+          backgroundColor: (state.settings.theme === "dark" || (state.settings.theme === "system" && matchMedia("(prefers-color-scheme: dark)").matches)) ? "#0f1020" : "#ffffff",
         }}
       >
         {/* Desktop logo */}
@@ -136,12 +151,22 @@ export function Layout() {
           ))}
         </nav>
 
-        {/* Desktop bottom branding */}
-        <div className="mt-auto hidden pt-6 md:block">
+        {/* Desktop bottom: user info + logout */}
+        <div className="mt-auto hidden pt-6 md:block space-y-3">
           <div className="rounded-2xl bg-gradient-to-br from-[#5b5ce2]/8 to-[#3d8bfd]/8 p-3 dark:from-white/5 dark:to-white/3">
-            <p className="text-xs font-semibold text-[#5b5ce2] dark:text-indigo-300">TaskForge</p>
-            <p className="mt-0.5 text-[10px] text-[#9397bc] dark:text-zinc-600">Interview prep tracker</p>
+            <p className="text-xs font-semibold text-[#5b5ce2] dark:text-indigo-300 truncate">{user?.name || user?.email || "User"}</p>
+            <p className="mt-0.5 text-[10px] text-[#9397bc] dark:text-zinc-600 truncate">{user?.email}</p>
           </div>
+          <button
+            onClick={() => logout()}
+            className={cn(
+              "flex w-full items-center gap-2.5 rounded-2xl px-3 py-2.5 text-sm font-medium transition-all duration-200",
+              "text-[#7175a0] hover:bg-red-50 hover:text-red-500 dark:text-zinc-500 dark:hover:bg-red-500/10 dark:hover:text-red-400",
+            )}
+          >
+            <LogOut size={17} />
+            <span>Log Out</span>
+          </button>
         </div>
       </aside>
 

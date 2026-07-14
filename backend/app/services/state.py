@@ -10,25 +10,24 @@ from sqlalchemy.orm import Session
 from app.models import AppState
 
 DEFAULT_STATE: dict[str, Any] = {"days": {}, "settings": {}}
-STATE_ID = "default"
 DAY_KEYS = ("dsa", "system", "ai", "hr", "misc")
 
 
-def read_state(db: Session) -> dict[str, Any]:
-    row = db.get(AppState, STATE_ID)
+def read_state(db: Session, user_id: str) -> dict[str, Any]:
+    row = db.query(AppState).filter(AppState.user_id == user_id).first()
     return deepcopy(row.data) if row else deepcopy(DEFAULT_STATE)
 
 
-def upsert_state(db: Session, data: dict[str, Any]) -> None:
+def upsert_state(db: Session, user_id: str, data: dict[str, Any]) -> None:
     table = AppState.__table__
     insert = pg_insert if db.bind and db.bind.dialect.name == "postgresql" else sqlite_insert
-    stmt = insert(table).values(id=STATE_ID, data=data)
+    stmt = insert(table).values(id=user_id, user_id=user_id, data=data)
     db.execute(stmt.on_conflict_do_update(index_elements=[table.c.id], set_={"data": data}))
     db.commit()
 
 
-def delete_state(db: Session) -> bool:
-    row = db.get(AppState, STATE_ID)
+def delete_state(db: Session, user_id: str) -> bool:
+    row = db.query(AppState).filter(AppState.user_id == user_id).first()
     if not row:
         return False
     db.delete(row)
@@ -61,11 +60,11 @@ def _merge_day(current: dict[str, Any] | None, patch: dict[str, Any], date: str)
     return base
 
 
-def upsert_day(db: Session, date: str, patch: dict[str, Any]) -> dict[str, Any]:
-    state = read_state(db)
+def upsert_day(db: Session, user_id: str, date: str, patch: dict[str, Any]) -> dict[str, Any]:
+    state = read_state(db, user_id)
     days = dict(state.get("days") or {})
     merged = _merge_day(days.get(date), patch, date)
     days[date] = merged
     state["days"] = days
-    upsert_state(db, state)
+    upsert_state(db, user_id, state)
     return merged
