@@ -99,7 +99,7 @@ export function Layout() {
         className={cn(
           // Mobile: bottom fixed nav — flush to edges, no gap
           "fixed inset-x-0 bottom-0 z-50",
-          "border-t border-[#d5d2f0] px-1 py-2",
+          "border-t border-[#d5d2f0] px-1 py-3",
           "shadow-[0_-4px_20px_rgb(91_92_226/0.12)] dark:shadow-[0_-4px_20px_rgb(0_0_0/0.5)]",
           // Desktop: left sidebar with blur + rounded
           "md:inset-x-auto md:inset-y-4 md:left-4 md:right-auto md:w-60 md:rounded-3xl md:border md:border-[#d5d2f0] md:p-4 md:backdrop-blur-2xl",
@@ -113,12 +113,12 @@ export function Layout() {
       >
         {/* Desktop logo */}
         <div className="mb-6 hidden items-center gap-3 px-2 md:flex">
-          <div
-            className="rounded-2xl p-2.5 text-white"
-            style={{ background: "linear-gradient(135deg, #5b5ce2, #3d8bfd)", boxShadow: "0 4px 14px rgb(91 92 226 / 0.45)" }}
-          >
-            <Sparkles size={18} />
-          </div>
+          <img
+            src="/image.png"
+            alt="App Icon"
+            className="h-10 w-10 rounded-2xl object-contain"
+            style={{ boxShadow: "0 4px 14px rgb(91 92 226 / 0.45)" }}
+          />
           <div className="flex-1 min-w-0">
             <p className="text-base font-bold text-[#1a1b2e] dark:text-zinc-50 truncate">{state.settings.appName}</p>
             <p className="text-xs font-medium text-[#7175a0] dark:text-zinc-500">Daily prep tracker</p>
@@ -133,7 +133,7 @@ export function Layout() {
               to={to}
               end={to === "/"}
               className={({ isActive }) => cn(
-                "group flex items-center justify-center gap-3 rounded-xl px-2 py-2 text-sm font-medium transition-all duration-200 md:rounded-2xl md:px-3 md:py-2.5 md:justify-start",
+                "group flex items-center justify-center gap-3 rounded-xl px-2 py-3 text-sm font-medium transition-all duration-200 md:rounded-2xl md:px-3 md:py-2.5 md:justify-start",
                 isActive
                   ? "bg-gradient-to-br from-[#5b5ce2] to-[#4546c8] text-white shadow-[0_4px_14px_rgb(91_92_226/0.40)] dark:from-[#8183f4] dark:to-[#5b5ce2]"
                   : "text-[#7175a0] hover:bg-[#ede9ff] hover:text-[#5b5ce2] dark:text-zinc-500 dark:hover:bg-white/8 dark:hover:text-zinc-200",
