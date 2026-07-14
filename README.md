@@ -1,6 +1,6 @@
-# CareerOS
+# TaskForge
 
-CareerOS is a daily interview preparation tracker for software engineers. It includes a React + TypeScript + Vite frontend and a FastAPI backend with Supabase/Postgres persistence.
+TaskForge is a daily interview preparation tracker for software engineers. It includes a React + TypeScript + Vite frontend and a FastAPI backend with Supabase/Postgres persistence.
 
 ## Features
 
