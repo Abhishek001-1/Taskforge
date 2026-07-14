@@ -8,7 +8,11 @@ from app.core.database import Base, engine
 
 
 def create_app() -> FastAPI:
-    Base.metadata.create_all(engine)
+    try:
+        Base.metadata.create_all(engine)
+    except Exception as exc:
+        import logging
+        logging.warning("Could not run create_all at startup (DB may be temporarily unreachable): %s", exc)
     api = FastAPI(title="TaskForge API", version="1.0.0")
     api.add_middleware(
         CORSMiddleware,
