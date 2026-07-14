@@ -1,10 +1,10 @@
-import type { HTMLAttributes, InputHTMLAttributes, SelectHTMLAttributes, TextareaHTMLAttributes } from "react";
+import type { HTMLAttributes, InputHTMLAttributes, SelectHTMLAttributes, TextareaHTMLAttributes, ComponentProps } from "react";
 import type React from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { cn } from "../utils/cn";
 
 /* ── Card ───────────────────────────────────────────────── */
-export function Card({ className, children, ...props }: HTMLAttributes<HTMLDivElement>) {
+export function Card({ className, children, ...props }: ComponentProps<typeof motion.div>) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -27,7 +27,7 @@ export function Card({ className, children, ...props }: HTMLAttributes<HTMLDivEl
 }
 
 /* ── GlassCard — slightly elevated variant ──────────────── */
-export function GlassCard({ className, children, ...props }: HTMLAttributes<HTMLDivElement>) {
+export function GlassCard({ className, children, ...props }: ComponentProps<typeof motion.div>) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
