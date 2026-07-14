@@ -13,10 +13,16 @@ def create_app() -> FastAPI:
     except Exception as exc:
         import logging
         logging.warning("Could not run create_all at startup (DB may be temporarily unreachable): %s", exc)
+    # Support comma-separated origins: "http://localhost:5173,https://taskforgeapp.vercel.app"
+    origins = [o.strip() for o in settings.frontend_origin.split(",") if o.strip()]
+    origins.append("http://127.0.0.1:5173")  # always allow local dev
+    origins.append("http://localhost:5173")
     api = FastAPI(title="TaskForge API", version="1.0.0")
     api.add_middleware(
         CORSMiddleware,
-        allow_origins=[settings.frontend_origin, "http://127.0.0.1:5173"],
+        allow_origins=list(set(origins)),
+        # Also allow all Vercel preview/branch deployments for this project
+        allow_origin_regex=r"https://taskforge.*\.vercel\.app",
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
