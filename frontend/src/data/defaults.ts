@@ -23,6 +23,7 @@ export const makeDay = (date = format(new Date(), "yyyy-MM-dd"), target = 5): Da
   ai: { topic: "LLMs", title: "", url: "", completed: false, notes: "" },
   hr: { question: "", practiced: false, confidence: "Medium" },
   misc: { completed: false, notes: "" },
+  aiGoals: [],
   notes: "",
 });
 
@@ -110,6 +111,7 @@ export function mergeDay(current: DayEntry, patch: DayPatch): DayEntry {
     ai: { ...current.ai, ...patch.ai },
     hr: { ...current.hr, ...patch.hr },
     misc: { ...current.misc, ...patch.misc },
+    aiGoals: patch.aiGoals ?? current.aiGoals ?? [],
   };
 }
 

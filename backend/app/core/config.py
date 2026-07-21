@@ -19,5 +19,8 @@ class Settings(BaseSettings):
     google_client_id: str = ""
     google_client_secret: str = ""
 
+    # OpenRouter AI
+    openrouter_api_key: str = ""
+
 
 settings = Settings()

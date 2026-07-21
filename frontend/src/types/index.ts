@@ -2,6 +2,7 @@ export type Difficulty = "Easy" | "Medium" | "Hard";
 export type Platform = "LeetCode" | "Codeforces" | "CodeChef" | "GFG" | "HackerRank" | "Other";
 export type Confidence = "Low" | "Medium" | "High";
 export type Theme = "light" | "dark" | "system";
+export type AiGoal = { title: string; category: string; description: string; estimated_minutes: number; added_at: string };
 
 export type DayEntry = {
   date: string;
@@ -10,6 +11,7 @@ export type DayEntry = {
   ai: { topic: string; title: string; url: string; completed: boolean; notes: string };
   hr: { question: string; practiced: boolean; confidence: Confidence };
   misc: { completed: boolean; notes: string };
+  aiGoals: AiGoal[];
   notes: string;
 };
 
@@ -19,5 +21,9 @@ export type Badge = { id: string; title: string; hint: string; unlocked: boolean
 
 /** Sparse day update — nested keys merge; omitted fields keep prior values. */
 export type DayPatch = {
-  [K in keyof DayEntry]?: DayEntry[K] extends object ? Partial<DayEntry[K]> : DayEntry[K];
+  [K in keyof DayEntry]?: DayEntry[K] extends unknown[]
+    ? DayEntry[K]
+    : DayEntry[K] extends object
+      ? Partial<DayEntry[K]>
+      : DayEntry[K];
 };

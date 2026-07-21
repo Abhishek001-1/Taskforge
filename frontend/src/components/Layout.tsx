@@ -114,10 +114,10 @@ export function Layout() {
         {/* Desktop logo */}
         <div className="mb-6 hidden items-center gap-3 px-2 md:flex">
           <img
-            src="/image.png"
+            src="/image1.png"
             alt="App Icon"
             className="h-10 w-10 rounded-2xl object-contain"
-            style={{ boxShadow: "0 4px 14px rgb(91 92 226 / 0.45)" }}
+            style={{ boxShadow: "0 10px 26px rgb(91 92 226 / 0.45)" }}
           />
           <div className="flex-1 min-w-0">
             <p className="text-base font-bold text-[#1a1b2e] dark:text-zinc-50 truncate">{state.settings.appName}</p>
